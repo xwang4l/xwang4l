@@ -14,6 +14,25 @@
 
 ---
 
+## 🖼️ 一目了然
+
+![个人介绍横幅](assets/banner.png)
+
+## 🎬 产品介绍视频
+
+<p align="center">
+  <a href="assets/intro-video.mp4">
+    <img src="assets/video-poster.png" width="720" alt="产品介绍视频封面 · 点击播放" />
+  </a>
+</p>
+<p align="center">
+  <sub>▶ 点击封面播放 24 秒产品介绍（能力全景 / 开源工具集 / 月报流水线 / AI Agent）</sub>
+</p>
+
+<video src="assets/intro-video.mp4" controls poster="assets/video-poster.png" width="100%">您的浏览器不支持视频播放，<a href="assets/intro-video.mp4">点击此处观看</a>。</video>
+
+---
+
 ## 🧑‍💻 关于我
 
 - 🔭 专注于 **汽车行业质量管理数字化**：PDI 到店检测、工单分析、瑕疵率看板、质量月报自动化
