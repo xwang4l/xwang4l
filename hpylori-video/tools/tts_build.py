@@ -25,8 +25,9 @@ os.makedirs(os.path.join(ROOT, "out"), exist_ok=True)
 
 FPS = 30
 SR = 44100
-LINE_GAP = 0.32
-SCENE_GAP = 0.85
+LINE_GAP = 0.28
+QUESTION_GAP = 0.42
+SCENE_GAP = 0.80
 LEAD_IN = 0.7
 TAIL = 1.4
 
@@ -169,33 +170,86 @@ SCENES = [
 ]
 
 
-def build_tts(base: str, model_file: str) -> sherpa_onnx.OfflineTts:
+KOKORO_DIR = os.path.join(CACHE, "tts", "kokoro-multi-lang-v1_1")
+
+# Kokoro 的中文词典只覆盖单字，多音字需要按词语覆盖读音
+USER_LEXICON = os.path.join(CACHE, "lexicon-user.txt")
+LEXICON_WORDS = {
+    "长期": {"长": 2},
+    "长了": {"长": 2},
+    "幽门螺杆菌": {"杆": 3},
+    "螺杆菌": {"杆": 3},
+    "杆菌": {"杆": 3},
+    "得胃癌": {"得": 2},
+    "处理": {"处": 3},
+    "恶心": {"恶": 3},
+    "重复": {"重": 2},
+    "嗳气": {"嗳": 3},
+    "列为": {"为": 2},
+    "以为": {"为": 2},
+    "误以为": {"为": 2},
+    "嚼碎": {"嚼": None},
+    "抽血": {"血": 3},
+    "长": {"长": 2},
+    "杆": {"杆": 3},
+}
+
+
+def build_user_lexicon() -> str:
+    table = {}
+    with open(os.path.join(KOKORO_DIR, "lexicon-zh.txt"), encoding="utf-8") as f:
+        for line in f:
+            parts = line.split()
+            if len(parts) >= 3 and len(parts[0]) == 1:
+                table[parts[0]] = parts[1:]
+    out = []
+    for word, tones in LEXICON_WORDS.items():
+        toks = []
+        for ch in word:
+            t = list(table[ch])
+            tone = tones.get(ch, "keep")
+            if tone is None:
+                t = ["ㄐ", "要", "2"]  # 嚼碎 -> jiáo
+            elif tone != "keep":
+                t[-1] = str(tone)
+            toks += t
+        out.append(word + " " + " ".join(toks))
+    with open(USER_LEXICON, "w", encoding="utf-8") as f:
+        f.write("\n".join(out) + "\n")
+    return USER_LEXICON
+
+
+def build_tts() -> sherpa_onnx.OfflineTts:
     cfg = sherpa_onnx.OfflineTtsConfig(
         model=sherpa_onnx.OfflineTtsModelConfig(
-            vits=sherpa_onnx.OfflineTtsVitsModelConfig(
-                model=os.path.join(base, model_file),
-                lexicon=os.path.join(base, "lexicon.txt"),
-                tokens=os.path.join(base, "tokens.txt"),
+            kokoro=sherpa_onnx.OfflineTtsKokoroModelConfig(
+                model=os.path.join(KOKORO_DIR, "model.onnx"),
+                voices=os.path.join(KOKORO_DIR, "voices.bin"),
+                tokens=os.path.join(KOKORO_DIR, "tokens.txt"),
+                data_dir=os.path.join(KOKORO_DIR, "espeak-ng-data"),
+                lexicon=",".join(
+                    [build_user_lexicon(), os.path.join(KOKORO_DIR, "lexicon-zh.txt")]
+                ),
+                dict_dir=os.path.join(KOKORO_DIR, "dict"),
             ),
             num_threads=2,
         ),
         rule_fsts=",".join(
-            os.path.join(base, f) for f in ("phone.fst", "date.fst", "number.fst")
+            os.path.join(KOKORO_DIR, f)
+            for f in ("phone-zh.fst", "date-zh.fst", "number-zh.fst")
         ),
         max_num_sentences=1,
     )
     return sherpa_onnx.OfflineTts(cfg)
 
 
-VOICES = {
-    "F": build_tts(os.path.join(CACHE, "tts", "vits-melo-tts-zh_en"), "model.onnx"),
-    "M": build_tts(os.path.join(CACHE, "tts", "vits-zh-hf-fanchen-wnj"), "vits-zh-hf-fanchen-wnj.onnx"),
-}
-SPEED = {"F": 1.02, "M": 1.0}
+VOICES = build_tts()
+SID = {"F": 4, "M": 60}
+SPEED = {"F": 1.16, "M": 1.14}
 
 
 def synth(speaker: str, text: str, sid: int = 0) -> np.ndarray:
-    audio = VOICES[speaker].generate(text, sid=sid, speed=SPEED[speaker])
+    audio = VOICES.generate(text, sid=SID[speaker], speed=SPEED[speaker])
     x = np.asarray(audio.samples, dtype=np.float32)
     sr = audio.sample_rate
     if sr != SR:
@@ -248,7 +302,11 @@ def main() -> None:
                     "audio": f"audio/{fname}",
                 }
             )
-            cursor += dur + (LINE_GAP if i < len(scene["lines"]) - 1 else 0)
+            cursor += dur + (
+                (QUESTION_GAP if text.rstrip().endswith("？") else LINE_GAP)
+                if i < len(scene["lines"]) - 1
+                else 0
+            )
         cursor += SCENE_GAP
         s["end"] = round(cursor - SCENE_GAP + 0.55, 3)
         timeline["scenes"].append(s)
@@ -273,7 +331,13 @@ def main() -> None:
         [
             "ffmpeg", "-y", "-v", "error",
             "-i", os.path.join(PUB, "audio", "voiceover_raw.wav"),
-            "-af", "loudnorm=I=-16:TP=-1.5:LRA=11",
+            "-af", (
+                "highpass=f=70,"
+                "equalizer=f=160:t=q:w=0.8:g=1.0,"
+                "equalizer=f=3000:t=q:w=1.1:g=-1.2,"
+                "acompressor=threshold=-20dB:ratio=2:attack=10:release=180,"
+                "loudnorm=I=-16:TP=-1.5:LRA=11"
+            ),
             "-ar", str(SR), "-ac", "1",
             os.path.join(PUB, "audio", "voiceover.wav"),
         ],

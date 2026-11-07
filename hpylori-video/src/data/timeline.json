@@ -11,40 +11,40 @@
           "speaker": "F",
           "text": "体检报告上写着幽门螺杆菌阳性，你是不是立刻开始担心：我会不会得胃癌？",
           "start": 0.7,
-          "end": 5.979,
+          "end": 7.913,
           "audio": "audio/line_hook_01.wav"
         },
         {
           "speaker": "M",
           "text": "先别慌。这个细菌在中国确实很常见，大约一半成年人都感染过。",
-          "start": 6.299,
-          "end": 11.836,
+          "start": 8.333,
+          "end": 14.12,
           "audio": "audio/line_hook_02.wav"
         },
         {
           "speaker": "F",
           "text": "可常见，是不是就意味着可以不管它？",
-          "start": 12.156,
-          "end": 14.816,
+          "start": 14.4,
+          "end": 17.772,
           "audio": "audio/line_hook_03.wav"
         },
         {
           "speaker": "M",
           "text": "也不是。它被世界卫生组织列为一类致癌物，但感染不等于一定会得胃癌。",
-          "start": 15.136,
-          "end": 20.556,
+          "start": 18.192,
+          "end": 24.147,
           "audio": "audio/line_hook_04.wav"
         },
         {
           "speaker": "F",
           "text": "所以今天我们就把它说清楚：怎么查，谁要治，怎么治，治完又该怎么复查。",
-          "start": 20.876,
-          "end": 26.491,
+          "start": 24.427,
+          "end": 30.862,
           "audio": "audio/line_hook_05.wav"
         }
       ],
       "start": 0.15,
-      "end": 27.041
+      "end": 31.412
     },
     {
       "id": "what",
@@ -54,48 +54,48 @@
         {
           "speaker": "F",
           "text": "先说清楚，幽门螺杆菌到底是一种什么细菌？",
-          "start": 27.341,
-          "end": 30.615,
+          "start": 31.662,
+          "end": 35.795,
           "audio": "audio/line_what_01.wav"
         },
         {
           "speaker": "M",
           "text": "它是一种螺旋形、微需氧的细菌，专门住在人的胃里，是目前已知少数能在胃酸中长期生存的微生物。",
-          "start": 30.935,
-          "end": 39.242,
+          "start": 36.215,
+          "end": 44.521,
           "audio": "audio/line_what_02.wav"
         },
         {
           "speaker": "F",
           "text": "胃酸那么强，它是怎么活下来的？",
-          "start": 39.562,
-          "end": 42.002,
+          "start": 44.801,
+          "end": 47.876,
           "audio": "audio/line_what_03.wav"
         },
         {
           "speaker": "M",
           "text": "它会钻到胃黏膜表面的黏液层下面，分泌尿素酶，把尿素分解成氨，在周围形成一层碱性的保护圈。",
-          "start": 42.322,
-          "end": 50.62,
+          "start": 48.296,
+          "end": 56.704,
           "audio": "audio/line_what_04.wav"
         },
         {
           "speaker": "F",
           "text": "相当于给自己盖了一间防酸小屋。",
-          "start": 50.94,
-          "end": 53.124,
+          "start": 56.984,
+          "end": 59.929,
           "audio": "audio/line_what_05.wav"
         },
         {
           "speaker": "M",
           "text": "对。但它的代谢产物会持续刺激胃黏膜，引起慢性炎症，时间长了，就可能出现萎缩、肠化生这些改变。",
-          "start": 53.444,
-          "end": 61.734,
+          "start": 60.209,
+          "end": 69.325,
           "audio": "audio/line_what_06.wav"
         }
       ],
-      "start": 26.791,
-      "end": 62.284
+      "start": 31.112,
+      "end": 69.875
     },
     {
       "id": "spread",
@@ -105,48 +105,48 @@
         {
           "speaker": "F",
           "text": "那它是怎么跑到人胃里的？",
-          "start": 62.584,
-          "end": 64.503,
+          "start": 70.125,
+          "end": 72.378,
           "audio": "audio/line_spread_01.wav"
         },
         {
           "speaker": "M",
           "text": "主要是人与人传播，口口途径和粪口途径都可能。共用餐具、聚餐不用公筷、饭前便后不洗手，都会增加传播机会。",
-          "start": 64.823,
-          "end": 75.201,
+          "start": 72.798,
+          "end": 83.158,
           "audio": "audio/line_spread_02.wav"
         },
         {
           "speaker": "F",
           "text": "所以家里一个人查出来，其他人风险也高？",
-          "start": 75.521,
-          "end": 78.621,
+          "start": 83.438,
+          "end": 87.414,
           "audio": "audio/line_spread_03.wav"
         },
         {
           "speaker": "M",
           "text": "家庭内聚集很明显。一人阳性，建议同住的成年人都做一次呼气试验评估，尤其是伴侣和老人。",
-          "start": 78.941,
-          "end": 87.177,
+          "start": 87.834,
+          "end": 95.265,
           "audio": "audio/line_spread_04.wav"
         },
         {
           "speaker": "F",
           "text": "那接吻会不会传染？",
-          "start": 87.497,
-          "end": 88.938,
+          "start": 95.545,
+          "end": 97.427,
           "audio": "audio/line_spread_05.wav"
         },
         {
           "speaker": "M",
           "text": "有可能，但别把它当成唯一的来源。规律洗手、分餐、用公筷，比过度焦虑更有用。",
-          "start": 89.258,
-          "end": 96.103,
+          "start": 97.847,
+          "end": 104.581,
           "audio": "audio/line_spread_06.wav"
         }
       ],
-      "start": 62.034,
-      "end": 96.653
+      "start": 69.575,
+      "end": 105.131
     },
     {
       "id": "symptoms",
@@ -156,48 +156,48 @@
         {
           "speaker": "F",
           "text": "感染以后，身体会有什么感觉？",
-          "start": 96.953,
-          "end": 99.257,
+          "start": 105.381,
+          "end": 108.31,
           "audio": "audio/line_symptoms_01.wav"
         },
         {
           "speaker": "M",
           "text": "麻烦就在这儿：大约七成感染者没有明显症状，所以很多人是体检才发现的。",
-          "start": 99.577,
-          "end": 105.904,
+          "start": 108.73,
+          "end": 115.001,
           "audio": "audio/line_symptoms_02.wav"
         },
         {
           "speaker": "F",
           "text": "那有症状的人，一般是什么表现？",
-          "start": 106.224,
-          "end": 108.66,
+          "start": 115.281,
+          "end": 118.497,
           "audio": "audio/line_symptoms_03.wav"
         },
         {
           "speaker": "M",
           "text": "可能会有腹胀、嗳气、上腹隐痛、早饱、反酸，但这些都不特异，不能靠感觉判断。",
-          "start": 108.98,
-          "end": 115.558,
+          "start": 118.917,
+          "end": 125.707,
           "audio": "audio/line_symptoms_04.wav"
         },
         {
           "speaker": "F",
           "text": "网上说口臭也是它引起的？",
-          "start": 115.878,
-          "end": 117.821,
+          "start": 125.987,
+          "end": 128.519,
           "audio": "audio/line_symptoms_05.wav"
         },
         {
           "speaker": "M",
           "text": "关系没有传得那么神。口臭的原因很多，牙周问题更常见，别只盯着这个菌。",
-          "start": 118.141,
-          "end": 124.877,
+          "start": 128.939,
+          "end": 135.737,
           "audio": "audio/line_symptoms_06.wav"
         }
       ],
-      "start": 96.403,
-      "end": 125.427
+      "start": 104.831,
+      "end": 136.287
     },
     {
       "id": "test",
@@ -207,62 +207,62 @@
         {
           "speaker": "F",
           "text": "那到底该怎么查？体检套餐里的项目五花八门。",
-          "start": 125.727,
-          "end": 129.267,
+          "start": 136.537,
+          "end": 140.821,
           "audio": "audio/line_test_01.wav"
         },
         {
           "speaker": "M",
           "text": "首选尿素呼气试验，碳十三或者碳十四，吹口气就行，准确率高，还能判断是不是现症感染。",
-          "start": 129.587,
-          "end": 137.732,
+          "start": 141.101,
+          "end": 149.516,
           "audio": "audio/line_test_02.wav"
         },
         {
           "speaker": "F",
           "text": "做这个检查有什么讲究？",
-          "start": 138.052,
-          "end": 139.962,
+          "start": 149.796,
+          "end": 152.007,
           "audio": "audio/line_test_03.wav"
         },
         {
           "speaker": "M",
           "text": "很重要：检查前要停质子泵抑制剂，也就是各种拉唑，至少两周；停抗生素和铋剂至少四周，否则容易出现假阴性。",
-          "start": 140.282,
-          "end": 149.509,
+          "start": 152.427,
+          "end": 162.297,
           "audio": "audio/line_test_04.wav"
         },
         {
           "speaker": "F",
           "text": "还有其他方法吗？",
-          "start": 149.829,
-          "end": 151.06,
+          "start": 162.577,
+          "end": 164.169,
           "audio": "audio/line_test_05.wav"
         },
         {
           "speaker": "M",
           "text": "胃镜可以取活检，做快速尿素酶试验或者病理检查，顺便看看胃黏膜的情况；粪便抗原检测也可以。",
-          "start": 151.38,
-          "end": 159.222,
+          "start": 164.589,
+          "end": 173.421,
           "audio": "audio/line_test_06.wav"
         },
         {
           "speaker": "F",
           "text": "那抽血查抗体呢？",
-          "start": 159.542,
-          "end": 160.91,
+          "start": 173.701,
+          "end": 175.437,
           "audio": "audio/line_test_07.wav"
         },
         {
           "speaker": "M",
           "text": "抗体阳性只能说明曾经接触过，不能证明现在还有菌。别拿着抗体报告直接去买药。",
-          "start": 161.23,
-          "end": 168.16,
+          "start": 175.857,
+          "end": 183.07,
           "audio": "audio/line_test_08.wav"
         }
       ],
-      "start": 125.177,
-      "end": 168.71
+      "start": 135.987,
+      "end": 183.62
     },
     {
       "id": "who",
@@ -272,62 +272,62 @@
         {
           "speaker": "F",
           "text": "查出来阳性，是不是人人都要根除？",
-          "start": 169.01,
-          "end": 171.692,
+          "start": 183.87,
+          "end": 187.228,
           "audio": "audio/line_who_01.wav"
         },
         {
           "speaker": "M",
           "text": "不是一刀切，但大多数成年人建议根除。特别是这几类人，优先级更高。",
-          "start": 172.012,
-          "end": 178.083,
+          "start": 187.648,
+          "end": 193.882,
           "audio": "audio/line_who_02.wav"
         },
         {
           "speaker": "F",
           "text": "具体是哪些人？",
-          "start": 178.403,
-          "end": 179.463,
+          "start": 194.162,
+          "end": 195.709,
           "audio": "audio/line_who_03.wav"
         },
         {
           "speaker": "M",
           "text": "消化性溃疡，不管有没有症状；胃黏膜相关淋巴组织淋巴瘤；慢性胃炎伴消化不良；有胃癌家族史；长期吃质子泵抑制剂；需要长期吃阿司匹林或者止痛药。",
-          "start": 179.783,
-          "end": 191.415,
+          "start": 196.129,
+          "end": 209.374,
           "audio": "audio/line_who_04.wav"
         },
         {
           "speaker": "F",
           "text": "孩子和老人也一样吗？",
-          "start": 191.735,
-          "end": 193.121,
+          "start": 209.654,
+          "end": 211.597,
           "audio": "audio/line_who_05.wav"
         },
         {
           "speaker": "M",
           "text": "儿童要个体化，一般不常规筛查，除非有明确指征；高龄老人要评估获益和风险，听专科医生的。",
-          "start": 193.441,
-          "end": 201.631,
+          "start": 212.017,
+          "end": 220.541,
           "audio": "audio/line_who_06.wav"
         },
         {
           "speaker": "F",
           "text": "一句话总结：多数该治，但要分人。",
-          "start": 201.951,
-          "end": 204.405,
+          "start": 220.821,
+          "end": 224.416,
           "audio": "audio/line_who_07.wav"
         },
         {
           "speaker": "M",
           "text": "对，治疗方案也要看过敏史、既往用药和当地耐药情况。",
-          "start": 204.725,
-          "end": 209.109,
+          "start": 224.696,
+          "end": 229.516,
           "audio": "audio/line_who_08.wav"
         }
       ],
-      "start": 168.46,
-      "end": 209.659
+      "start": 183.32,
+      "end": 230.066
     },
     {
       "id": "treat",
@@ -337,62 +337,62 @@
         {
           "speaker": "F",
           "text": "确定要治，方案是什么？",
-          "start": 209.959,
-          "end": 211.8,
+          "start": 230.316,
+          "end": 232.651,
           "audio": "audio/line_treat_01.wav"
         },
         {
           "speaker": "M",
           "text": "国内常用铋剂四联，疗程十四天：一种质子泵抑制剂，加铋剂，再加两种抗生素。",
-          "start": 212.12,
-          "end": 218.78,
+          "start": 233.071,
+          "end": 240.178,
           "audio": "audio/line_treat_02.wav"
         },
         {
           "speaker": "F",
           "text": "十四天，一天都不能少吗？",
-          "start": 219.1,
-          "end": 221.017,
+          "start": 240.458,
+          "end": 243.074,
           "audio": "audio/line_treat_03.wav"
         },
         {
           "speaker": "M",
           "text": "尽量按时按量吃完。中途停药，容易失败，还会增加耐药，下次更难治。",
-          "start": 221.337,
-          "end": 227.459,
+          "start": 243.494,
+          "end": 249.802,
           "audio": "audio/line_treat_04.wav"
         },
         {
           "speaker": "F",
           "text": "副作用呢？有人说嘴里发苦、大便发黑。",
-          "start": 227.779,
-          "end": 230.605,
+          "start": 250.082,
+          "end": 254.1,
           "audio": "audio/line_treat_05.wav"
         },
         {
           "speaker": "M",
           "text": "铋剂会让大便变黑，嘴里可能有金属味，恶心、腹泻也常见。多数能耐受，但出现皮疹、严重腹泻要及时联系医生。",
-          "start": 230.925,
-          "end": 240.781,
+          "start": 254.38,
+          "end": 264.076,
           "audio": "audio/line_treat_06.wav"
         },
         {
           "speaker": "F",
           "text": "还有一点，青霉素过敏一定要提前说。",
-          "start": 241.101,
-          "end": 243.868,
+          "start": 264.356,
+          "end": 267.908,
           "audio": "audio/line_treat_07.wav"
         },
         {
           "speaker": "M",
           "text": "对，医生会换用别的抗生素。千万别自己上网买药配药。",
-          "start": 244.188,
-          "end": 248.399,
+          "start": 268.188,
+          "end": 273.07,
           "audio": "audio/line_treat_08.wav"
         }
       ],
-      "start": 209.409,
-      "end": 248.949
+      "start": 229.766,
+      "end": 273.62
     },
     {
       "id": "recheck",
@@ -402,48 +402,48 @@
         {
           "speaker": "F",
           "text": "吃完药，就算成功了吗？",
-          "start": 249.249,
-          "end": 251.249,
+          "start": 273.87,
+          "end": 276.129,
           "audio": "audio/line_recheck_01.wav"
         },
         {
           "speaker": "M",
           "text": "必须复查。治疗结束至少四周，而且停质子泵抑制剂两周以后，再去做呼气试验。",
-          "start": 251.569,
-          "end": 258.646,
+          "start": 276.549,
+          "end": 283.608,
           "audio": "audio/line_recheck_02.wav"
         },
         {
           "speaker": "F",
           "text": "为什么要等这么久？",
-          "start": 258.966,
-          "end": 260.404,
+          "start": 283.888,
+          "end": 285.691,
           "audio": "audio/line_recheck_03.wav"
         },
         {
           "speaker": "M",
           "text": "太早复查，细菌只是被抑制、还没死绝，结果可能假阴性，让你误以为治好了。",
-          "start": 260.724,
-          "end": 267.545,
+          "start": 286.111,
+          "end": 292.94,
           "audio": "audio/line_recheck_04.wav"
         },
         {
           "speaker": "F",
           "text": "如果复查还是阳性呢？",
-          "start": 267.865,
-          "end": 269.449,
+          "start": 293.22,
+          "end": 295.22,
           "audio": "audio/line_recheck_05.wav"
         },
         {
           "speaker": "M",
           "text": "说明可能失败或者耐药，需要医生评估，必要时换方案，不要自己重复吃同一套药。",
-          "start": 269.769,
-          "end": 276.733,
+          "start": 295.64,
+          "end": 302.489,
           "audio": "audio/line_recheck_06.wav"
         }
       ],
-      "start": 248.699,
-      "end": 277.283
+      "start": 273.32,
+      "end": 303.039
     },
     {
       "id": "prevent",
@@ -453,48 +453,48 @@
         {
           "speaker": "F",
           "text": "没感染的人，怎么预防？",
-          "start": 277.583,
-          "end": 279.342,
+          "start": 303.289,
+          "end": 305.555,
           "audio": "audio/line_prevent_01.wav"
         },
         {
           "speaker": "M",
           "text": "几件小事：聚餐用公筷，提倡分餐；餐具定期消毒；饭前便后洗手；不喝生水，少吃来源不明的不洁食物。",
-          "start": 279.662,
-          "end": 288.39,
+          "start": 305.975,
+          "end": 315.563,
           "audio": "audio/line_prevent_02.wav"
         },
         {
           "speaker": "F",
           "text": "家里有孩子呢？",
-          "start": 288.71,
-          "end": 289.727,
+          "start": 315.843,
+          "end": 317.238,
           "audio": "audio/line_prevent_03.wav"
         },
         {
           "speaker": "M",
           "text": "不要口对口喂饭，不要用嘴试奶温，不要把食物嚼碎了喂，这些老习惯真的该改。",
-          "start": 290.047,
-          "end": 296.539,
+          "start": 317.658,
+          "end": 324.374,
           "audio": "audio/line_prevent_04.wav"
         },
         {
           "speaker": "F",
           "text": "听起来都是生活里的小事。",
-          "start": 296.859,
-          "end": 298.836,
+          "start": 324.654,
+          "end": 327.233,
           "audio": "audio/line_prevent_05.wav"
         },
         {
           "speaker": "M",
           "text": "健康往往就是这些小事堆出来的。",
-          "start": 299.156,
-          "end": 301.832,
+          "start": 327.513,
+          "end": 330.173,
           "audio": "audio/line_prevent_06.wav"
         }
       ],
-      "start": 277.033,
-      "end": 302.382
+      "start": 302.739,
+      "end": 330.723
     },
     {
       "id": "outro",
@@ -504,52 +504,52 @@
         {
           "speaker": "F",
           "text": "最后，用一句话总结今天的重点。",
-          "start": 302.682,
-          "end": 305.166,
+          "start": 330.973,
+          "end": 334.005,
           "audio": "audio/line_outro_01.wav"
         },
         {
           "speaker": "M",
           "text": "幽门螺杆菌很常见，但不是小事：规范检测，该治就治，足疗程，记得复查。",
-          "start": 305.486,
-          "end": 312.084,
+          "start": 334.285,
+          "end": 340.955,
           "audio": "audio/line_outro_02.wav"
         },
         {
           "speaker": "F",
           "text": "也别恐慌，更别自己吓自己。",
-          "start": 312.404,
-          "end": 314.565,
+          "start": 341.235,
+          "end": 344.087,
           "audio": "audio/line_outro_03.wav"
         },
         {
           "speaker": "M",
           "text": "把这条视频转给家里那位体检报告阳性的人，让他带着报告去消化科。",
-          "start": 314.885,
-          "end": 320.677,
+          "start": 344.367,
+          "end": 350.245,
           "audio": "audio/line_outro_04.wav"
         },
         {
           "speaker": "F",
           "text": "科学看待，规范处理。",
-          "start": 320.997,
-          "end": 322.763,
+          "start": 350.525,
+          "end": 352.833,
           "audio": "audio/line_outro_05.wav"
         },
         {
           "speaker": "M",
           "text": "我们下期见。",
-          "start": 323.083,
-          "end": 324.122,
+          "start": 353.113,
+          "end": 354.164,
           "audio": "audio/line_outro_06.wav"
         }
       ],
-      "start": 302.132,
-      "end": 324.672
+      "start": 330.423,
+      "end": 354.714
     }
   ],
-  "durationInSeconds": 325.522,
-  "totalFrames": 9766,
+  "durationInSeconds": 355.564,
+  "totalFrames": 10667,
   "voiceover": "audio/voiceover.wav",
   "wordCount": 1664
 }
