@@ -2,21 +2,23 @@
 """Build the voice-over track + timeline for the H. pylori explainer.
 
 Pipeline:
-  script (below) -> per-line neural TTS (sherpa-onnx, offline)
-  -> trimmed 44.1 kHz mono WAVs -> concatenated voiceover.wav
+  script (below) -> per-line Edge TTS (Microsoft neural voices, online)
+  -> 24 kHz MP3 -> trimmed 44.1 kHz mono WAVs -> concatenated voiceover.wav
   -> src/data/timeline.json (used by Remotion) + out/subtitles.srt
 """
 
+import asyncio
 import json
 import os
 import subprocess
+import tempfile
 import wave
 
 import numpy as np
-import sherpa_onnx
+
+import edge_tts
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CACHE = os.path.join(ROOT, ".cache")
 PUB = os.path.join(ROOT, "public")
 AUDIO_DIR = os.path.join(PUB, "audio")
 os.makedirs(AUDIO_DIR, exist_ok=True)
@@ -30,6 +32,11 @@ QUESTION_GAP = 0.42
 SCENE_GAP = 0.80
 LEAD_IN = 0.7
 TAIL = 1.4
+
+PROXY = "http://127.0.0.1:18080"
+EDGE_VOICES = {"F": "zh-CN-XiaoxiaoNeural", "M": "zh-CN-YunxiNeural"}
+EDGE_RATE = "+4%"
+MAX_RETRIES = 4
 
 SCENES = [
     {
@@ -170,92 +177,47 @@ SCENES = [
 ]
 
 
-KOKORO_DIR = os.path.join(CACHE, "tts", "kokoro-multi-lang-v1_1")
-
-# Kokoro 的中文词典只覆盖单字，多音字需要按词语覆盖读音
-USER_LEXICON = os.path.join(CACHE, "lexicon-user.txt")
-LEXICON_WORDS = {
-    "长期": {"长": 2},
-    "长了": {"长": 2},
-    "幽门螺杆菌": {"杆": 3},
-    "螺杆菌": {"杆": 3},
-    "杆菌": {"杆": 3},
-    "得胃癌": {"得": 2},
-    "处理": {"处": 3},
-    "恶心": {"恶": 3},
-    "重复": {"重": 2},
-    "嗳气": {"嗳": 3},
-    "列为": {"为": 2},
-    "以为": {"为": 2},
-    "误以为": {"为": 2},
-    "嚼碎": {"嚼": None},
-    "抽血": {"血": 3},
-    "长": {"长": 2},
-    "杆": {"杆": 3},
-}
+async def synth_edge_mp3(speaker: str, text: str, mp3_path: str) -> None:
+    """Synthesize one line with Edge TTS, retrying on transient failures."""
+    last_err = None
+    for attempt in range(1, MAX_RETRIES + 1):
+        try:
+            communicate = edge_tts.Communicate(
+                text,
+                EDGE_VOICES[speaker],
+                rate=EDGE_RATE,
+                proxy=PROXY,
+            )
+            await communicate.save(mp3_path)
+            if os.path.getsize(mp3_path) > 200:
+                return
+            last_err = f"file too small ({os.path.getsize(mp3_path)} bytes)"
+        except Exception as exc:  # noqa: BLE001
+            last_err = f"{type(exc).__name__}: {exc}"
+        await asyncio.sleep(1.2 * attempt)
+    raise RuntimeError(f"Edge TTS failed after {MAX_RETRIES} attempts: {last_err}")
 
 
-def build_user_lexicon() -> str:
-    table = {}
-    with open(os.path.join(KOKORO_DIR, "lexicon-zh.txt"), encoding="utf-8") as f:
-        for line in f:
-            parts = line.split()
-            if len(parts) >= 3 and len(parts[0]) == 1:
-                table[parts[0]] = parts[1:]
-    out = []
-    for word, tones in LEXICON_WORDS.items():
-        toks = []
-        for ch in word:
-            t = list(table[ch])
-            tone = tones.get(ch, "keep")
-            if tone is None:
-                t = ["ㄐ", "要", "2"]  # 嚼碎 -> jiáo
-            elif tone != "keep":
-                t[-1] = str(tone)
-            toks += t
-        out.append(word + " " + " ".join(toks))
-    with open(USER_LEXICON, "w", encoding="utf-8") as f:
-        f.write("\n".join(out) + "\n")
-    return USER_LEXICON
-
-
-def build_tts() -> sherpa_onnx.OfflineTts:
-    cfg = sherpa_onnx.OfflineTtsConfig(
-        model=sherpa_onnx.OfflineTtsModelConfig(
-            kokoro=sherpa_onnx.OfflineTtsKokoroModelConfig(
-                model=os.path.join(KOKORO_DIR, "model.onnx"),
-                voices=os.path.join(KOKORO_DIR, "voices.bin"),
-                tokens=os.path.join(KOKORO_DIR, "tokens.txt"),
-                data_dir=os.path.join(KOKORO_DIR, "espeak-ng-data"),
-                lexicon=",".join(
-                    [build_user_lexicon(), os.path.join(KOKORO_DIR, "lexicon-zh.txt")]
-                ),
-                dict_dir=os.path.join(KOKORO_DIR, "dict"),
-            ),
-            num_threads=2,
-        ),
-        rule_fsts=",".join(
-            os.path.join(KOKORO_DIR, f)
-            for f in ("phone-zh.fst", "date-zh.fst", "number-zh.fst")
-        ),
-        max_num_sentences=1,
+def mp3_to_wav(mp3_path: str, wav_path: str) -> None:
+    """Decode MP3 -> 44.1 kHz mono float-friendly PCM WAV."""
+    subprocess.run(
+        [
+            "ffmpeg", "-y", "-v", "error",
+            "-i", mp3_path,
+            "-ar", str(SR), "-ac", "1",
+            "-af", "aresample=resampler=soxr",
+            wav_path,
+        ],
+        check=True,
     )
-    return sherpa_onnx.OfflineTts(cfg)
 
 
-VOICES = build_tts()
-SID = {"F": 4, "M": 60}
-SPEED = {"F": 1.16, "M": 1.14}
-
-
-def synth(speaker: str, text: str, sid: int = 0) -> np.ndarray:
-    audio = VOICES.generate(text, sid=SID[speaker], speed=SPEED[speaker])
-    x = np.asarray(audio.samples, dtype=np.float32)
-    sr = audio.sample_rate
-    if sr != SR:
-        n = int(round(len(x) * SR / sr))
-        x = np.interp(np.linspace(0, len(x) - 1, n), np.arange(len(x)), x).astype(np.float32)
-    # trim leading/trailing near-silence, keep 60 ms padding
+def trim_normalize(wav_path: str) -> np.ndarray:
+    """Load WAV, trim leading/trailing near-silence (60 ms pad), normalize."""
+    with wave.open(wav_path, "rb") as f:
+        n = f.getnframes()
+        raw = f.readframes(n)
+    x = np.frombuffer(raw, dtype=np.int16).astype(np.float32) / 32768.0
     thresh = 0.008
     idx = np.where(np.abs(x) > thresh)[0]
     if len(idx):
@@ -279,37 +241,47 @@ def write_wav(path: str, samples: np.ndarray) -> float:
     return len(samples) / SR
 
 
-def main() -> None:
+async def build_all_audio() -> None:
+    # Pre-fetch voices to warm up clock-skew correction in edge_tts DRM.
+    await edge_tts.list_voices(proxy=PROXY)
+
     timeline = {"fps": FPS, "sampleRate": SR, "scenes": []}
     cursor = LEAD_IN
     total_chars = 0
-    for scene in SCENES:
-        s = dict(scene)
-        s["start"] = round(cursor - 0.55, 3)
-        s["lines"] = []
-        for i, (speaker, text) in enumerate(scene["lines"]):
-            total_chars += len(text)
-            x = synth(speaker, text)
-            fname = f"line_{scene['id']}_{i + 1:02d}.wav"
-            dur = write_wav(os.path.join(AUDIO_DIR, fname), x)
-            start = cursor
-            s["lines"].append(
-                {
-                    "speaker": speaker,
-                    "text": text,
-                    "start": round(start, 3),
-                    "end": round(start + dur, 3),
-                    "audio": f"audio/{fname}",
-                }
-            )
-            cursor += dur + (
-                (QUESTION_GAP if text.rstrip().endswith("？") else LINE_GAP)
-                if i < len(scene["lines"]) - 1
-                else 0
-            )
-        cursor += SCENE_GAP
-        s["end"] = round(cursor - SCENE_GAP + 0.55, 3)
-        timeline["scenes"].append(s)
+
+    with tempfile.TemporaryDirectory() as tmp:
+        for scene in SCENES:
+            s = dict(scene)
+            s["start"] = round(cursor - 0.55, 3)
+            s["lines"] = []
+            for i, (speaker, text) in enumerate(scene["lines"]):
+                total_chars += len(text)
+                mp3_path = os.path.join(tmp, f"{scene['id']}_{i + 1:02d}.mp3")
+                wav_path = os.path.join(tmp, f"{scene['id']}_{i + 1:02d}.wav")
+                await synth_edge_mp3(speaker, text, mp3_path)
+                mp3_to_wav(mp3_path, wav_path)
+                x = trim_normalize(wav_path)
+
+                fname = f"line_{scene['id']}_{i + 1:02d}.wav"
+                dur = write_wav(os.path.join(AUDIO_DIR, fname), x)
+                start = cursor
+                s["lines"].append(
+                    {
+                        "speaker": speaker,
+                        "text": text,
+                        "start": round(start, 3),
+                        "end": round(start + dur, 3),
+                        "audio": f"audio/{fname}",
+                    }
+                )
+                cursor += dur + (
+                    (QUESTION_GAP if text.rstrip().endswith("？") else LINE_GAP)
+                    if i < len(scene["lines"]) - 1
+                    else 0
+                )
+            cursor += SCENE_GAP
+            s["end"] = round(cursor - SCENE_GAP + 0.55, 3)
+            timeline["scenes"].append(s)
 
     total_dur = cursor - SCENE_GAP + TAIL
     timeline["durationInSeconds"] = round(total_dur, 3)
@@ -367,7 +339,12 @@ def main() -> None:
         "chars": total_chars,
         "scenes": len(timeline["scenes"]),
         "lines": sum(len(s["lines"]) for s in timeline["scenes"]),
+        "tts": "edge-tts (Xiaoxiao F / Yunxi M)",
     }, ensure_ascii=False))
+
+
+def main() -> None:
+    asyncio.run(build_all_audio())
 
 
 if __name__ == "__main__":
